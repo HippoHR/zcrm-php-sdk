@@ -1,8 +1,8 @@
 {
-	"name" : "zohocrm/php-sdk",
+	"name" : "HippoHR/zcrm-php-sdk",
 	"description" : "Zoho CRM API SDK for PHP",
 	"type" : "SDK",
-	"homepage" : "https://github.com/zoho/zcrm-php-sdk",
+	"homepage" : "https://github.com/HippoHR/zcrm-php-sdk",
 	"authors" : [{
 			"name" : "Zoho CRM API Team",
 			"email" : "support@zohocrm.com",
