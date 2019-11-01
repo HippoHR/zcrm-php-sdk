@@ -10,8 +10,7 @@ class Logger
         $file = ZCRMConfigUtil::getConfigValue(APIConstants::LOG_FILE);
 
         // Then attempt to use the log path
-        if(ZCRMConfigUtil::getConfigValue('applicationLogFilePath'))
-        {
+        if(ZCRMConfigUtil::getConfigValue('applicationLogFilePath')) {
             $file = $file ?: rtrim(ZCRMConfigUtil::getConfigValue('applicationLogFilePath'), '/' ) . '/ZCRMClientLibrary.log';
         }
 

@@ -12,7 +12,7 @@ use zcrmsdk\crm\setup\users\ZCRMUser;
 
 class ZCRMModule
 {
-    
+
     /**
      *
      * convertable module
@@ -20,238 +20,238 @@ class ZCRMModule
      * @var boolean
      */
     private $convertable = null;
-    
+
     /**
      * creatable module
      *
      * @var boolean
      */
     private $creatable = null;
-    
+
     /**
      * editable module
      *
      * @var boolean
      */
     private $editable = null;
-    
+
     /**
      * deletable module
      *
      * @var boolean
      */
     private $deletable = null;
-    
+
     /**
      * weblink of the webtab
      *
      * @var string
      */
     private $webLink = null;
-    
+
     /**
      * singular label name of the module
      *
      * @var string
      */
     private $singularLabel = null;
-    
+
     /**
      * plural label name of the module
      *
      * @var string
      */
     private $pluralLabel = null;
-    
+
     /**
      * the user who modified the module
      *
      * @var ZCRMUser
      */
     private $modifiedBy = null;
-    
+
     /**
      * modification time of the moduel
      *
      * @var String
      */
     private $modifiedTime = null;
-    
+
     /**
      * viewable module
      *
      * @var boolean
      */
     private $viewable = null;
-    
+
     /**
      * api supported module
      *
      * @var boolean
      */
     private $apiSupported = null;
-    
+
     /**
      * custom module
      *
      * @var boolean
      */
     private $customModule = null;
-    
+
     /**
      * scoring supported module
      *
      * @var boolean
      */
     private $scoringSupported = null;
-    
+
     /**
      * module id
      *
      * @var string
      */
     private $id = null;
-    
+
     /**
      * module display name
      *
      * @var string
      */
     private $moduleName = null;
-    
+
     /**
      * business card field limit
      *
      * @var int
      */
     private $businessCardFieldLimit = null;
-    
+
     /**
      * module api name
      *
      * @var string
      */
     private $apiName = null;
-    
+
     /**
      * api names of the fields supported
      *
      * @var array
      */
     private $businessCardFields = array();
-    
+
     /**
      * profiles for the module
      *
      * @var array ZCRMProfile instances array
      */
     private $profiles = array();
-    
+
     /**
      * display field name of the module
      *
      * @var string
      */
     private $displayFieldName = null;
-    
+
     /**
      * id of the display field of the module
      *
      * @var string
      */
     private $displayFieldId = null;
-    
+
     /**
      * related list of the module
      *
      * @var ZCRMModuleRelatedList
      */
     private $relatedList = null;
-    
+
     /**
      * layout of the module
      *
      * @var ZCRMLayout
      */
     private $layouts = null;
-    
+
     /**
      * field api names
      *
      * @var array
      */
     private $fields = null;
-    
+
     /**
      * related list properties of the module
      *
      * @var ZCRMRelatedListProperties
      */
     private $relatedListProperties = null;
-    
+
     /**
      * poroperties of the module
      *
      * @var array
      */
     private $properties = null;
-    
+
     /**
      * records per page
      *
      * @var int
      */
     private $perPage = null;
-    
+
     /**
      * search layout fields
      *
      * @var array
      */
     private $searchLayoutFields = null;
-    
+
     /**
      * default territory name
      *
      * @var string
      */
     private $defaultTerritoryName = null;
-    
+
     /**
      * default territory id
      *
      * @var string
      */
     private $defaultTerritoryId = null;
-    
+
     /**
      * default custom view id
      *
      * @var string
      */
     private $defaultCustomViewId = null;
-    
+
     /**
      * custom view of the module
      *
      * @var ZCRMCustomView
      */
     private $customView = null;
-    
+
     /**
      * global search supported
      *
      * @var boolean
      */
     private $globalSearchSupported;
-    
+
     /**
      * sequence number of the module
      *
      * @var int
      */
     private $sequenceNumber;
-    
+
     /**
      * constructor to set the module api name
      *
@@ -261,7 +261,7 @@ class ZCRMModule
     {
         $this->apiName = $apiName;
     }
-    
+
     /**
      * method to get the instance of module
      *
@@ -272,7 +272,7 @@ class ZCRMModule
     {
         return new ZCRMModule($apiName);
     }
-    
+
     /**
      * method to check whether the module is creatable
      *
@@ -282,7 +282,7 @@ class ZCRMModule
     {
         return $this->creatable;
     }
-    
+
     /**
      * method to set the module as creatable
      *
@@ -292,7 +292,7 @@ class ZCRMModule
     {
         $this->creatable = $creatable;
     }
-    
+
     /**
      * method to check whether the module is convertable
      *
@@ -302,7 +302,7 @@ class ZCRMModule
     {
         return $this->convertable;
     }
-    
+
     /**
      * method to set the module as convertable
      *
@@ -312,7 +312,7 @@ class ZCRMModule
     {
         $this->convertable = $convertable;
     }
-    
+
     /**
      * method to check whether the module is Editable
      *
@@ -322,7 +322,7 @@ class ZCRMModule
     {
         return $this->editable;
     }
-    
+
     /**
      * method to set the module as Editable
      *
@@ -332,7 +332,7 @@ class ZCRMModule
     {
         $this->editable = $editable;
     }
-    
+
     /**
      * method to check whether the module is Deletable
      *
@@ -342,7 +342,7 @@ class ZCRMModule
     {
         return $this->deletable;
     }
-    
+
     /**
      * method to set the module as deletable
      *
@@ -352,7 +352,7 @@ class ZCRMModule
     {
         $this->deletable = $deletable;
     }
-    
+
     /**
      * method to get the weblink of the webtab
      *
@@ -362,7 +362,7 @@ class ZCRMModule
     {
         return $this->webLink;
     }
-    
+
     /**
      * ethod to get the weblink of the webtab
      *
@@ -372,7 +372,7 @@ class ZCRMModule
     {
         $this->webLink = $webLink;
     }
-    
+
     /**
      * method to get the singular label of the module
      *
@@ -382,7 +382,7 @@ class ZCRMModule
     {
         return $this->singularLabel;
     }
-    
+
     /**
      * method to set the singular label of the module
      *
@@ -392,7 +392,7 @@ class ZCRMModule
     {
         $this->singularLabel = $singularLabel;
     }
-    
+
     /**
      * method to get the Plural Label of the module
      *
@@ -402,7 +402,7 @@ class ZCRMModule
     {
         return $this->pluralLabel;
     }
-    
+
     /**
      * method to set the plural Label of the module
      *
@@ -412,7 +412,7 @@ class ZCRMModule
     {
         $this->pluralLabel = $pluralLabel;
     }
-    
+
     /**
      * Method to get the user who modified the module
      *
@@ -422,7 +422,7 @@ class ZCRMModule
     {
         return $this->modifiedBy;
     }
-    
+
     /**
      * Method to set the user who modified the module
      *
@@ -432,7 +432,7 @@ class ZCRMModule
     {
         $this->modifiedBy = $modifiedBy;
     }
-    
+
     /**
      * Method to get the modification time of the module
      *
@@ -442,7 +442,7 @@ class ZCRMModule
     {
         return $this->modifiedTime;
     }
-    
+
     /**
      * Method to set the modification time of the module
      *
@@ -452,7 +452,7 @@ class ZCRMModule
     {
         $this->modifiedTime = $modifiedTime;
     }
-    
+
     /**
      * method to check whether the module is Viewable
      *
@@ -462,7 +462,7 @@ class ZCRMModule
     {
         return $this->viewable;
     }
-    
+
     /**
      * method to set the module as viewable
      *
@@ -472,7 +472,7 @@ class ZCRMModule
     {
         $this->viewable = $viewable;
     }
-    
+
     /**
      * method to check whether the module is ApiSupported
      *
@@ -482,7 +482,7 @@ class ZCRMModule
     {
         return $this->apiSupported;
     }
-    
+
     /**
      * method to set the module as apiSupported
      *
@@ -492,7 +492,7 @@ class ZCRMModule
     {
         $this->apiSupported = $apiSupported;
     }
-    
+
     /**
      * method to check whether the module is CustomModule
      *
@@ -502,7 +502,7 @@ class ZCRMModule
     {
         return $this->customModule;
     }
-    
+
     /**
      * method to set the module as customModule
      *
@@ -512,7 +512,7 @@ class ZCRMModule
     {
         $this->customModule = $customModule;
     }
-    
+
     /**
      * method to check whether the module is ScoringSupported
      *
@@ -522,7 +522,7 @@ class ZCRMModule
     {
         return $this->scoringSupported;
     }
-    
+
     /**
      * method to set the module as scoringSupported
      *
@@ -532,7 +532,7 @@ class ZCRMModule
     {
         $this->scoringSupported = $scoringSupported;
     }
-    
+
     /**
      * method to get the module id
      *
@@ -542,7 +542,7 @@ class ZCRMModule
     {
         return $this->id;
     }
-    
+
     /**
      * method to set the module id
      *
@@ -552,7 +552,7 @@ class ZCRMModule
     {
         $this->id = $id;
     }
-    
+
     /**
      * method to get the module name
      *
@@ -562,7 +562,7 @@ class ZCRMModule
     {
         return $this->moduleName;
     }
-    
+
     /**
      * method to set the module name
      *
@@ -572,7 +572,7 @@ class ZCRMModule
     {
         $this->moduleName = $moduleName;
     }
-    
+
     /**
      * method to get the business card field limit
      *
@@ -582,7 +582,7 @@ class ZCRMModule
     {
         return $this->businessCardFieldLimit;
     }
-    
+
     /**
      * method to set the business card field limit
      *
@@ -592,7 +592,7 @@ class ZCRMModule
     {
         $this->businessCardFieldLimit = $businessCardFieldLimit;
     }
-    
+
     /**
      * method to set the business card fields
      *
@@ -602,7 +602,7 @@ class ZCRMModule
     {
         $this->businessCardFields = $businessCardFields;
     }
-    
+
     /**
      * method to get the business card fields
      *
@@ -612,7 +612,7 @@ class ZCRMModule
     {
         return $this->businessCardFields;
     }
-    
+
     /**
      * method to set the module api name
      *
@@ -622,7 +622,7 @@ class ZCRMModule
     {
         $this->apiName = $apiName;
     }
-    
+
     /**
      * method to get the module api name
      *
@@ -632,7 +632,7 @@ class ZCRMModule
     {
         return $this->apiName;
     }
-    
+
     /**
      * method to get the profiles of modules
      *
@@ -642,7 +642,7 @@ class ZCRMModule
     {
         $this->profiles = $profiles;
     }
-    
+
     /**
      * method to set the profiles of modules
      *
@@ -652,7 +652,7 @@ class ZCRMModule
     {
         return $this->profiles;
     }
-    
+
     /**
      * method to set the display field of the module
      *
@@ -662,7 +662,7 @@ class ZCRMModule
     {
         $this->displayFieldName = $name;
     }
-    
+
     /**
      * method to get the display field of the module
      *
@@ -672,7 +672,7 @@ class ZCRMModule
     {
         return $this->displayFieldName;
     }
-    
+
     /**
      * method to set the id of the display field the module
      *
@@ -682,7 +682,7 @@ class ZCRMModule
     {
         $this->displayFieldId = $id;
     }
-    
+
     /**
      * method to set the id of the display field the module
      *
@@ -692,7 +692,7 @@ class ZCRMModule
     {
         return $this->displayFieldId;
     }
-    
+
     /**
      * method to get the related list of the module
      *
@@ -702,7 +702,7 @@ class ZCRMModule
     {
         return $this->relatedList;
     }
-    
+
     /**
      * method to set the related list of the module
      *
@@ -712,7 +712,7 @@ class ZCRMModule
     {
         $this->relatedList = $relatedList;
     }
-    
+
     /**
      * method to set the module layout
      *
@@ -722,7 +722,7 @@ class ZCRMModule
     {
         $this->layouts = $layouts;
     }
-    
+
     /**
      * metho to get the module layout
      *
@@ -732,7 +732,7 @@ class ZCRMModule
     {
         return $this->layouts;
     }
-    
+
     /**
      * method to set the field of the module
      *
@@ -742,7 +742,7 @@ class ZCRMModule
     {
         $this->fields = $fields;
     }
-    
+
     /**
      * method to get the field of the module
      *
@@ -752,7 +752,7 @@ class ZCRMModule
     {
         return $this->fields;
     }
-    
+
     /**
      * method to set the related list properties of the module
      *
@@ -762,7 +762,7 @@ class ZCRMModule
     {
         $this->relatedListProperties = $relatedListProp;
     }
-    
+
     /**
      * method to get the related list properties of the module
      *
@@ -772,7 +772,7 @@ class ZCRMModule
     {
         return $this->relatedListProperties;
     }
-    
+
     /**
      * method to get the properties of the module
      *
@@ -782,7 +782,7 @@ class ZCRMModule
     {
         return $this->properties;
     }
-    
+
     /**
      * method to set the properties of the module
      *
@@ -792,7 +792,7 @@ class ZCRMModule
     {
         $this->properties = $properties;
     }
-    
+
     /**
      * method to Get the value for the number of records shown in module list view
      *
@@ -802,7 +802,7 @@ class ZCRMModule
     {
         return $this->perPage;
     }
-    
+
     /**
      * method to Set the value for the number of records to be shown in module list view
      *
@@ -812,7 +812,7 @@ class ZCRMModule
     {
         $this->perPage = $perPage;
     }
-    
+
     /**
      * method to Get the module search layout fields
      *
@@ -822,7 +822,7 @@ class ZCRMModule
     {
         return $this->searchLayoutFields;
     }
-    
+
     /**
      * method to Set the module search layout fields
      *
@@ -832,7 +832,7 @@ class ZCRMModule
     {
         $this->searchLayoutFields = $searchLayoutFields;
     }
-    
+
     /**
      * method to Get the module's default Territory Name
      *
@@ -842,7 +842,7 @@ class ZCRMModule
     {
         return $this->defaultTerritoryName;
     }
-    
+
     /**
      * method to Set the module's default Territory Name
      *
@@ -852,7 +852,7 @@ class ZCRMModule
     {
         $this->defaultTerritoryName = $defaultTerritoryName;
     }
-    
+
     /**
      * method to Get the module's default Territory Id
      *
@@ -862,7 +862,7 @@ class ZCRMModule
     {
         return $this->defaultTerritoryId;
     }
-    
+
     /**
      * method to Set the module's default Territory Id
      *
@@ -872,7 +872,7 @@ class ZCRMModule
     {
         $this->defaultTerritoryId = $defaultTerritoryId;
     }
-    
+
     /**
      * method to Set the Module Default custom view
      *
@@ -882,7 +882,7 @@ class ZCRMModule
     {
         $this->customView = $customView;
     }
-    
+
     /**
      * method to Get the Module Default custom view
      *
@@ -892,7 +892,7 @@ class ZCRMModule
     {
         return $this->customView;
     }
-    
+
     /**
      * method to check whether module is global Search Supported
      *
@@ -902,7 +902,7 @@ class ZCRMModule
     {
         return $this->globalSearchSupported;
     }
-    
+
     /**
      * method to set module as global Search Supported
      *
@@ -912,7 +912,7 @@ class ZCRMModule
     {
         $this->globalSearchSupported = $globalSearchSupported;
     }
-    
+
     /**
      * method to get the sequence number of the module
      *
@@ -922,7 +922,7 @@ class ZCRMModule
     {
         return $this->sequenceNumber;
     }
-    
+
     /**
      * method to set the sequence number of the module
      *
@@ -932,7 +932,7 @@ class ZCRMModule
     {
         $this->sequenceNumber = $sequenceNumber;
     }
-    
+
     /**
      * method to get the the specified field of the module.
      *
@@ -943,7 +943,7 @@ class ZCRMModule
     {
         return ModuleAPIHandler::getInstance($this)->getFieldDetails($fieldId);
     }
-    
+
     /**
      * method to get the list of fields of the module.
      *
@@ -953,7 +953,7 @@ class ZCRMModule
     {
         return ModuleAPIHandler::getInstance($this)->getAllFields();
     }
-    
+
     /**
      * method to get all the layouts of the module
      *
@@ -963,7 +963,7 @@ class ZCRMModule
     {
         return ModuleAPIHandler::getInstance($this)->getAllLayouts();
     }
-    
+
     /**
      * method to get the layout details
      *
@@ -974,7 +974,7 @@ class ZCRMModule
     {
         return ModuleAPIHandler::getInstance($this)->getLayoutDetails($layoutId);
     }
-    
+
     /**
      * method to Return the custom views of the module.
      *
@@ -984,7 +984,7 @@ class ZCRMModule
     {
         return ModuleAPIHandler::getInstance($this)->getAllCustomViews();
     }
-    
+
     /**
      * method to Return the custom view details of the module.
      *
@@ -995,7 +995,7 @@ class ZCRMModule
     {
         return ModuleAPIHandler::getInstance($this)->getCustomView($customViewId);
     }
-    
+
     /**
      * Method to update module settings
      *
@@ -1005,7 +1005,7 @@ class ZCRMModule
     {
         return ModuleAPIHandler::getInstance($this)->updateModuleSettings();
     }
-    
+
     /**
      * Method to update custom views settings
      *
@@ -1016,7 +1016,7 @@ class ZCRMModule
     {
         return ModuleAPIHandler::getInstance($this)->updateCustomView($customViewInstance);
     }
-    
+
     /**
      * Method to get related lists of a module.
      *
@@ -1026,7 +1026,7 @@ class ZCRMModule
     {
         return ModuleAPIHandler::getInstance($this)->getAllRelatedLists();
     }
-    
+
     /**
      * Method to get the specified related list
      *
@@ -1037,7 +1037,7 @@ class ZCRMModule
     {
         return ModuleAPIHandler::getInstance($this)->getRelatedListDetails($relatedListId);
     }
-    
+
     /**
      * method to get the default custom id
      *
@@ -1047,7 +1047,7 @@ class ZCRMModule
     {
         return $this->defaultCustomViewId;
     }
-    
+
     /**
      * method to set the default custom id
      *
@@ -1057,7 +1057,7 @@ class ZCRMModule
     {
         $this->defaultCustomViewId = $defaultCustomViewId;
     }
-    
+
     /**
      * method to get the record of the module
      *
@@ -1069,23 +1069,23 @@ class ZCRMModule
         $record = ZCRMRecord::getInstance($this->apiName, $entityId);
         return EntityAPIHandler::getInstance($record)->getRecord();
     }
-    
+
     /**
      * method to get records of the custom view
      *
      * @param string $cvId custom view id
      * @param String $sortByField sorts the related list records accoring to the field api name (no sorting by default)
      * @param String $sortOrder sorts the related list records in ascending-"asc" or descending-"desc" order(no sorting by default
-     * @param number $startIndex start index of the record to be obtained (default is 1)
-     * @param number $endIndex end index of the record to be obtained (default is 200)
+     * @param number $page The page to obtain (default is 1)
+     * @param number $perPage Maximum number of records per page (default is 200)
      * @param string $headers DateTime(ISO8601 format) to display records which are modified after the given input datetime (String)
      * @return BulkAPIResponse instance of the BulkAPIResponse class which holds the Bulk API response.
      */
-    public function getRecords($cvId = null, $sortByField = null, $sortOrder = null, $startIndex = 1, $endIndex = 200, $headers = null)
+    public function getRecords($cvId = null, $sortByField = null, $sortOrder = null, $page = 1, $perPage = 200, $headers = null)
     {
-        return MassEntityAPIHandler::getInstance($this)->getRecords($cvId, $sortByField, $sortOrder, $startIndex, $endIndex, $headers);
+        return MassEntityAPIHandler::getInstance($this)->getRecords($cvId, $sortByField, $sortOrder, $page, $perPage, $headers);
     }
-    
+
     /**
      * method to search records of the module by searchword
      *
@@ -1098,7 +1098,7 @@ class ZCRMModule
     {
         return MassEntityAPIHandler::getInstance($this)->searchRecords($searchWord, $page, $perPage, "word");
     }
-    
+
     /**
      * method to search records of the module by phone
      *
@@ -1111,7 +1111,7 @@ class ZCRMModule
     {
         return MassEntityAPIHandler::getInstance($this)->searchRecords($phone, $page, $perPage, "phone");
     }
-    
+
     /**
      * method to search records of the module by email id
      *
@@ -1124,7 +1124,7 @@ class ZCRMModule
     {
         return MassEntityAPIHandler::getInstance($this)->searchRecords($email, $page, $perPage, "email");
     }
-    
+
     /**
      * method to search records of the module by criteria
      *
@@ -1137,7 +1137,7 @@ class ZCRMModule
     {
         return MassEntityAPIHandler::getInstance($this)->searchRecords($criteria, $page, $perPage, "criteria");
     }
-    
+
     /**
      * method to the field of records in module
      *
@@ -1150,7 +1150,7 @@ class ZCRMModule
     {
         return MassEntityAPIHandler::getInstance($this)->massUpdateRecords($entityIds, $fieldApiName, $value);
     }
-    
+
     /**
      * method to update the records in the module
      *
@@ -1163,7 +1163,7 @@ class ZCRMModule
     {
         return MassEntityAPIHandler::getInstance($this)->updateRecords($records, $trigger);
     }
-    
+
     /**
      * method to create the records in the module
      *
@@ -1176,7 +1176,7 @@ class ZCRMModule
     {
         return MassEntityAPIHandler::getInstance($this)->createRecords($records, $trigger,$lar_id);
     }
-    
+
     /**
      * method to upsert the records of the module
      *
@@ -1189,7 +1189,7 @@ class ZCRMModule
     {
         return MassEntityAPIHandler::getInstance($this)->upsertRecords($records, $trigger,$lar_id,$duplicate_check_fields);
     }
-    
+
     /**
      * method to delete the records of the module
      *
@@ -1200,7 +1200,7 @@ class ZCRMModule
     {
         return MassEntityAPIHandler::getInstance($this)->deleteRecords($entityIds);
     }
-    
+
     /**
      * method to get the deleted records of the module
      *
@@ -1210,7 +1210,7 @@ class ZCRMModule
     {
         return MassEntityAPIHandler::getInstance($this)->getAllDeletedRecords();
     }
-    
+
     /**
      * method to get the records in recyle bin of the module
      *
@@ -1220,7 +1220,7 @@ class ZCRMModule
     {
         return MassEntityAPIHandler::getInstance($this)->getRecycleBinRecords();
     }
-    
+
     /**
      * method to get the permanently deleted records of the module
      *
@@ -1230,7 +1230,7 @@ class ZCRMModule
     {
         return MassEntityAPIHandler::getInstance($this)->getPermanentlyDeletedRecords();
     }
-    
+
     /**
      * method to get the tags of the module
      *
@@ -1244,7 +1244,7 @@ class ZCRMModule
         }
         return TagAPIHandler::getInstance($this)->getTags();
     }
-    
+
     /**
      * method to get the tag count of the module
      *
@@ -1262,7 +1262,7 @@ class ZCRMModule
         }
         return TagAPIHandler::getInstance($this)->getTagCount($tagid);
     }
-    
+
     /**
      * method to create the tags of the module
      *
@@ -1280,7 +1280,7 @@ class ZCRMModule
         }
         return TagAPIHandler::getInstance($this)->createTags($tags);
     }
-    
+
     /**
      * method to update the tags of the module
      *
@@ -1298,7 +1298,7 @@ class ZCRMModule
         }
         return TagAPIHandler::getInstance($this)->updateTags($tags);
     }
-    
+
     /**
      * method to add tags to the record of the module
      *
@@ -1320,7 +1320,7 @@ class ZCRMModule
         }
         return TagAPIHandler::getInstance($this)->addTagsToRecords($recordIds, $tagNames);
     }
-    
+
     /**
      * method to remove the the tags the the records of the module
      *
