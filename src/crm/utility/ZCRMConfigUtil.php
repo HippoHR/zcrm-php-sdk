@@ -48,7 +48,6 @@ class ZCRMConfigUtil
             ZohoOAuthConstants::LOG_FILE,
             APIConstants::APPLICATION_LOGFILE_PATH,
             APIConstants::APPLICATION_LOGFILE_NAME,
-            APIConstants::API_BASEURL,
             APIConstants::API_VERSION,
             APIConstants::APPLICATION_LOGFILE_PATH,
             APIConstants::FILE_UPLOAD_URL
