@@ -9,14 +9,14 @@ use zcrmsdk\oauth\utility\ZohoOAuthConstants;
 
 class ZCRMConfigUtil
 {
-
+    
     private static $configProperties = array();
-
+    
     public static function getInstance()
     {
         return new ZCRMConfigUtil();
     }
-
+    
     public static function initialize($configuration)
     {
         $mandatory_keys = array(
@@ -39,24 +39,26 @@ class ZCRMConfigUtil
         self::setConfigValues($configuration);
         ZohoOAuth::initialize($configuration);
     }
-
+    
     private static function setConfigValues($configuration)
     {
         $config_keys = array(
             APIConstants::CURRENT_USER_EMAIL,
             ZohoOAuthConstants::SANDBOX,
             ZohoOAuthConstants::LOG_FILE,
-            APIConstants::LOG_FILE,
+            APIConstants::APPLICATION_LOGFILE_PATH,
+            APIConstants::APPLICATION_LOGFILE_NAME,
             APIConstants::API_BASEURL,
             APIConstants::API_VERSION,
-            APIConstants::APPLICATION_LOGFILE_PATH
+            APIConstants::APPLICATION_LOGFILE_PATH,
+            APIConstants::FILE_UPLOAD_URL
         );
-
+        
         if (! array_key_exists(ZohoOAuthConstants::SANDBOX, $configuration)) {
             self::$configProperties[ZohoOAuthConstants::SANDBOX] = "false";
         }
-        if (! array_key_exists(APIConstants::API_BASEURL, $configuration)) {
-            self::$configProperties[APIConstants::API_BASEURL] = "www.zohoapis.com";
+        if (! array_key_exists(APIConstants::API_BASE_URL, $configuration)) {
+            self::$configProperties[APIConstants::API_BASE_URL] = "www.zohoapis.com";
         }
         if (! array_key_exists(APIConstants::API_VERSION, $configuration)) {
             self::$configProperties[APIConstants::API_VERSION] = "v2";
@@ -66,40 +68,45 @@ class ZCRMConfigUtil
                 self::$configProperties[$key] = $configuration[$key];
         }
     }
-
+    
     public static function getConfigValue($key)
     {
         return isset(self::$configProperties[$key]) ? self::$configProperties[$key] : '';
     }
-
+    
     public static function setConfigValue($key, $value)
     {
         self::$configProperties[$key] = $value;
     }
-
+    
     public static function getAPIBaseUrl()
     {
-        return self::getConfigValue("apiBaseUrl");
+        return self::getConfigValue(APIConstants::API_BASE_URL);
     }
 
+    public static function getFileUploadURL()
+    {
+        return self::getConfigValue(APIConstants::FILE_UPLOAD_URL);
+    }
+    
     public static function getAPIVersion()
     {
-        return self::getConfigValue("apiVersion");
+        return self::getConfigValue(APIConstants::API_VERSION);
     }
-
+    
     public static function getAccessToken()
     {
         $currentUserEmail = ZCRMRestClient::getCurrentUserEmailID();
-
+        
         if ($currentUserEmail == null && self::getConfigValue("currentUserEmail") == null) {
             throw new ZCRMException("current user should either be set in ZCRMRestClient or in configuration  map");
         } else if ($currentUserEmail == null) {
-            $currentUserEmail = self::getConfigValue("currentUserEmail");
+            $currentUserEmail = self::getConfigValue(APIConstants::CURRENT_USER_EMAIL);
         }
         $oAuthCliIns = ZohoOAuth::getClientInstance();
         return $oAuthCliIns->getAccessToken($currentUserEmail);
     }
-
+    
     public static function getAllConfigs()
     {
         return self::$configProperties;

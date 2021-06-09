@@ -36,10 +36,16 @@ class OrganizationAPIHandler extends APIHandler
     {
         return new OrganizationAPIHandler();
     }
-    public function getNotes(){
+    public function getNotes($param_map,$header_map){
         try {
             $this->urlPath = "Notes";
             $this->requestMethod = APIConstants::REQUEST_METHOD_GET;
+            foreach($param_map as $key=>$value){
+                if($value!=null)$this->addParam($key,$value);
+            }
+            foreach($header_map as $key=>$value){
+                if($value!=null)$this->addHeader($key,$value);
+            }
             $this->addHeader("Content-Type", "application/json");
             $responseInstance = APIRequest::getInstance($this)->getBulkAPIResponse();
             $responseJSON = $responseInstance->getResponseJSON();
@@ -57,6 +63,7 @@ class OrganizationAPIHandler extends APIHandler
             throw $exception;
         }
     }
+    
     public function createNotes($noteInstances){
         if (sizeof($noteInstances) > 100) {
             throw new ZCRMException(APIConstants::API_MAX_NOTES_MSG, APIConstants::RESPONSECODE_BAD_REQUEST);
@@ -86,6 +93,7 @@ class OrganizationAPIHandler extends APIHandler
             throw $exception;
         }
     }
+    
     public function deleteNotes($noteIds){
         if (sizeof($noteIds) > 100) {
             throw new ZCRMException(APIConstants::API_MAX_NOTES_MSG, APIConstants::RESPONSECODE_BAD_REQUEST);
@@ -103,6 +111,7 @@ class OrganizationAPIHandler extends APIHandler
             throw $exception;
         }
     }
+    
     public function getOrganizationDetails()
     {
         try {
@@ -141,6 +150,7 @@ class OrganizationAPIHandler extends APIHandler
             throw $exception;
         }
     }
+    
     public function getOrganizationTax($orgTaxId)
     {
         try {
@@ -157,6 +167,7 @@ class OrganizationAPIHandler extends APIHandler
             throw $exception;
         }
     }
+    
     public function createOrganizationTaxes($orgTaxInstances)
     {
         if (sizeof($orgTaxInstances) > 100) {
@@ -186,6 +197,7 @@ class OrganizationAPIHandler extends APIHandler
             throw $exception;
         }
     }
+    
     public function updateOrganizationTaxes($orgTaxInstances)
     {
         if (sizeof($orgTaxInstances) > 100) {
@@ -214,6 +226,7 @@ class OrganizationAPIHandler extends APIHandler
             throw $exception;
         }
     }
+    
     public function deleteOrganizationTax($orgTaxId)
     {
         try {
@@ -227,6 +240,7 @@ class OrganizationAPIHandler extends APIHandler
             throw $exception;
         }
     }
+    
     public function deleteOrganizationTaxes($orgTaxIds)
     {
         if (sizeof($orgTaxIds) > 100) {
@@ -245,6 +259,7 @@ class OrganizationAPIHandler extends APIHandler
             throw $exception;
         }
     }
+    
     public function getZCRMorgTax($orgTaxDetails){
         $orgTaxInstance=ZCRMOrgTax::getInstance($orgTaxDetails['name'], $orgTaxDetails['id']);
         $orgTaxInstance->setValue($orgTaxDetails['display_label']);
@@ -337,7 +352,7 @@ class OrganizationAPIHandler extends APIHandler
         $crmRoleInstance->setDisplayLabel($roleDetails['display_label']);
         $crmRoleInstance->setAdminRole((boolean) $roleDetails['admin_user']);
         if (isset($roleDetails['reporting_to'])) {
-            $crmRoleInstance->setReportingTo(ZCRMUser::getInstance($roleDetails['reporting_to']['id'], $roleDetails['reporting_to']['name']));
+            $crmRoleInstance->setReportingTo(ZCRMRole::getInstance($roleDetails['reporting_to']['id'], $roleDetails['reporting_to']['name']));
         }
         return $crmRoleInstance;
     }
@@ -395,6 +410,7 @@ class OrganizationAPIHandler extends APIHandler
             throw $exception;
         }
     }
+    
     public function constructJSONForZCRMOrgTax($orgTaxInstance)
     {
         $orgTaxJson = array();
@@ -414,6 +430,7 @@ class OrganizationAPIHandler extends APIHandler
         
         return $orgTaxJson;
     }
+    
     public function constructJSONForUser($userInstanceArray)
     {
         $userArray = array();
@@ -622,11 +639,17 @@ class OrganizationAPIHandler extends APIHandler
         }
     }
     
-    public function getUsers($type)
+    public function getUsers($param_map,$header_map,$type)
     {
         try {
             $this->urlPath = "users";
             $this->requestMethod = APIConstants::REQUEST_METHOD_GET;
+            foreach($param_map as $key=>$value){
+                if($value!=null)$this->addParam($key,$value);
+            }
+            foreach($header_map as $key=>$value){
+                if($value!=null)$this->addHeader($key,$value);
+            }
             if ($type != null) {
                 $this->addParam('type', $type);
             }
@@ -646,18 +669,16 @@ class OrganizationAPIHandler extends APIHandler
             throw $exception;
         }
     }
-    public function searchUsersByCriteria($criteria,$type)
+    
+    public function searchUsersByCriteria($criteria,$param_map)
     {
         try {
             $this->urlPath = "users/search";
             $this->requestMethod = APIConstants::REQUEST_METHOD_GET;
-            
-            $this->addParam('criteria', $criteria);
-            
-            if ($type != null) {
-                $this->addParam('type', $type);
+            foreach($param_map as $key=>$value){
+                if($value!=null)$this->addParam($key,$value);
             }
-            
+            $this->addParam('criteria',$criteria);
             $this->addHeader("Content-Type", "application/json");
             $responseInstance = APIRequest::getInstance($this)->getBulkAPIResponse();
             $responseJSON = $responseInstance->getResponseJSON();
@@ -674,54 +695,55 @@ class OrganizationAPIHandler extends APIHandler
             throw $exception;
         }
     }
-    public function getAllUsers()
+    
+    public function getAllUsers($param_map,$header_map)
     {
-        return self::getUsers(null);
+        return self::getUsers($param_map,$header_map,'AllUsers');
     }
     
-    public function getAllDeactiveUsers()
+    public function getAllDeactiveUsers($param_map,$header_map)
     {
-        return self::getUsers('DeactiveUsers');
+        return self::getUsers($param_map,$header_map,'DeactiveUsers');
     }
     
-    public function getAllActiveUsers()
+    public function getAllActiveUsers($param_map,$header_map)
     {
-        return self::getUsers('ActiveUsers');
+        return self::getUsers($param_map,$header_map,'ActiveUsers');
     }
     
-    public function getAllConfirmedUsers()
+    public function getAllConfirmedUsers($param_map,$header_map)
     {
-        return self::getUsers('ConfirmedUsers');
+        return self::getUsers($param_map,$header_map,'ConfirmedUsers');
     }
     
-    public function getAllNotConfirmedUsers()
+    public function getAllNotConfirmedUsers($param_map,$header_map)
     {
-        return self::getUsers('NotConfirmedUsers');
+        return self::getUsers($param_map,$header_map,'NotConfirmedUsers');
     }
     
-    public function getAllDeletedUsers()
+    public function getAllDeletedUsers($param_map,$header_map)
     {
-        return self::getUsers('DeletedUsers');
+        return self::getUsers($param_map,$header_map,'DeletedUsers');
     }
     
-    public function getAllActiveConfirmedUsers()
+    public function getAllActiveConfirmedUsers($param_map,$header_map)
     {
-        return self::getUsers('ActiveConfirmedUsers');
+        return self::getUsers($param_map,$header_map,'ActiveConfirmedUsers');
     }
     
-    public function getAllAdminUsers()
+    public function getAllAdminUsers($param_map,$header_map)
     {
-        return self::getUsers('AdminUsers');
+        return self::getUsers($param_map,$header_map,'AdminUsers');
     }
     
-    public function getAllActiveConfirmedAdmins()
+    public function getAllActiveConfirmedAdmins($param_map,$header_map)
     {
-        return self::getUsers('ActiveConfirmedAdmins');
+        return self::getUsers($param_map,$header_map,'ActiveConfirmedAdmins');
     }
     
     public function getCurrentUser()
     {
-        return self::getUsers('CurrentUser');
+        return self::getUsers(array(),array(),'CurrentUser');
     }
     
     public function getZCRMUser($userDetails)
