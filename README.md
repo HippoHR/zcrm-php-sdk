@@ -1,5 +1,16 @@
-#PHP SDK for Zoho CRM
-----------------------
+# Archival Notice:
+
+This SDK is archived. You can continue to use it, but no new features or support requests will be accepted. For the new version, refer to
+
+v2 API SDK:
+- [GitHub Repository](https://github.com/zoho/zohocrm-php-sdk-2.0)
+- [Help Doc](https://www.zoho.com/crm/developer/docs/php-sdk/v2/php.html)
+
+v2.1 API SDK:
+- [GitHub Repository](https://github.com/zoho/zohocrm-php-sdk-2.1)
+
+# PHP SDK for Zoho CRM
+
 PHP SDK for Zoho CRM APIs provides wrapper for Zoho CRM APIs. Hence invoking a Zoho CRM API from your client application is just a method call.It supports both single user as well as multi user authentication.
 
 Registering a Zoho Client

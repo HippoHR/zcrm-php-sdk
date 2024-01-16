@@ -30,12 +30,12 @@ class OAuthLogger
     {
         self::writeToFile("SEVERE: $msg");
     }
-
+    
     public static function err($msg)
     {
         self::writeToFile("ERROR: $msg");
     }
-
+    
     public static function debug($msg)
     {
         self::writeToFile("DEBUG: $msg");

@@ -2,8 +2,8 @@
 namespace zcrmsdk\oauth;
 
 
+use zcrmsdk\crm\utility\Logger;
 use zcrmsdk\oauth\exception\ZohoOAuthException;
-use zcrmsdk\oauth\utility\OAuthLogger;
 use zcrmsdk\oauth\utility\ZohoOAuthConstants;
 use zcrmsdk\oauth\utility\ZohoOAuthHTTPConnector;
 use zcrmsdk\oauth\utility\ZohoOAuthTokens;
@@ -19,6 +19,7 @@ class ZohoOAuthClient
     {
         $this->zohoOAuthParams = $params;
     }
+
     public static function getInstance($params)
     {
         self::$zohoOAuthClient = new ZohoOAuthClient($params);
@@ -36,13 +37,13 @@ class ZohoOAuthClient
         try {
             $tokens = $persistence->getOAuthTokens($userEmailId);
         } catch (ZohoOAuthException $ex) {
-            OAuthLogger::severe("Exception while retrieving tokens from persistence - " . $ex);
+            Logger::severe("Exception while retrieving tokens from persistence - " . $ex);
             throw $ex;
         }
         try {
             return $tokens->getAccessToken();
         } catch (ZohoOAuthException $ex) {
-            OAuthLogger::info("Access Token has expired. Hence refreshing.");
+            Logger::info("Access Token has expired. Hence refreshing.");
             $tokens = self::refreshAccessToken($tokens->getRefreshToken(), $userEmailId);
             return $tokens->getAccessToken();
         }
@@ -76,6 +77,7 @@ class ZohoOAuthClient
     {
         self::refreshAccessToken($refreshToken, $userEmailId);
     }
+    
     public function refreshAccessToken($refreshToken, $userEmailId)
     {
         
@@ -156,7 +158,9 @@ class ZohoOAuthClient
         $connector->addHeadder(ZohoOAuthConstants::AUTHORIZATION, ZohoOAuthConstants::OAUTH_HEADER_PREFIX . $accessToken);
         $apiResponse = $connector->get();
         $jsonResponse = self::processResponse($apiResponse);
-        
+        if(!array_key_exists("Email", $jsonResponse)){
+            throw new ZohoOAuthException("Exception while fetching UserID from access token, Make sure AAAserver.profile.Read scope is included while generating the Grant token " . $jsonResponse);
+        }
         return $jsonResponse['Email'];
     }
     

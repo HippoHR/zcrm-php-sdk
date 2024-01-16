@@ -11,20 +11,20 @@ use zcrmsdk\crm\utility\APIConstants;
 
 class MassEntityAPIHandler extends APIHandler
 {
-
+    
     private $module = null;
-
+    
     public function __construct($moduleInstance)
     {
         $this->module = $moduleInstance;
     }
-
+    
     public static function getInstance($moduleInstance)
     {
         return new MassEntityAPIHandler($moduleInstance);
     }
-
-    public function createRecords($records, $trigger,$lar_id)
+    
+    public function createRecords($records, $trigger,$lar_id,$process)
     {
         if (sizeof($records) > 100) {
             throw new ZCRMException(APIConstants::API_MAX_RECORDS_MSG, APIConstants::RESPONSECODE_BAD_REQUEST);
@@ -49,9 +49,12 @@ class MassEntityAPIHandler extends APIHandler
             if ($lar_id !== null) {
                 $requestBodyObj["lar_id"] = $lar_id;
             }
+            if($process !== null && is_array($process) ){
+                $requestBodyObj["process"] =$process;
+            }
 
             $this->requestBody = $requestBodyObj;
-
+            
             // Fire Request
             $bulkAPIResponse = APIRequest::getInstance($this)->getBulkAPIResponse();
             $createdRecords = array();
@@ -76,7 +79,8 @@ class MassEntityAPIHandler extends APIHandler
             throw $e;
         }
     }
-    public function upsertRecords($records, $trigger,$lar_id,$duplicate_check_fields)
+
+    public function upsertRecords($records, $trigger,$lar_id,$duplicate_check_fields,$process)
     {
         if (sizeof($records) > 100) {
             throw new ZCRMException(APIConstants::API_MAX_RECORDS_MSG, APIConstants::RESPONSECODE_BAD_REQUEST);
@@ -105,8 +109,11 @@ class MassEntityAPIHandler extends APIHandler
             if ($lar_id !== null) {
                 $requestBodyObj["lar_id"] = $lar_id;
             }
+            if($process !== null && is_array($process) ){
+                $requestBodyObj["process"] =$process;
+            }
             $this->requestBody = $requestBodyObj;
-
+            
             // Fire Request
             $bulkAPIResponse = APIRequest::getInstance($this)->getBulkAPIResponse();
             $upsertRecords = array();
@@ -131,8 +138,8 @@ class MassEntityAPIHandler extends APIHandler
             throw $e;
         }
     }
-
-    public function updateRecords($records, $trigger)
+    
+    public function updateRecords($records, $trigger,$process)
     {
         if (sizeof($records) > 100) {
             throw new ZCRMException(APIConstants::API_MAX_RECORDS_MSG, APIConstants::RESPONSECODE_BAD_REQUEST);
@@ -154,9 +161,12 @@ class MassEntityAPIHandler extends APIHandler
             if ($trigger !== null && is_array($trigger)) {
                 $requestBodyObj["trigger"] = $trigger;
             }
+            if($process !== null && is_array($process) ){
+                $requestBodyObj["process"] =$process;
+            }
 
             $this->requestBody = $requestBodyObj;
-
+            
             // Fire Request
             $bulkAPIResponse = APIRequest::getInstance($this)->getBulkAPIResponse();
             $upsertRecords = array();
@@ -181,7 +191,7 @@ class MassEntityAPIHandler extends APIHandler
             throw $e;
         }
     }
-
+    
     public function deleteRecords($entityIds)
     {
         if (sizeof($entityIds) > 100) {
@@ -192,11 +202,11 @@ class MassEntityAPIHandler extends APIHandler
             $this->requestMethod = APIConstants::REQUEST_METHOD_DELETE;
             $this->addHeader("Content-Type", "application/json");
             $this->addParam("ids", implode(",", $entityIds)); // converts array to string with specified seperator
-
+            
             // Fire Request
             $bulkAPIResponse = APIRequest::getInstance($this)->getBulkAPIResponse();
             $responses = $bulkAPIResponse->getEntityResponses();
-
+            
             foreach ($responses as $entityResIns) {
                 $responseData = $entityResIns->getResponseJSON();
                 $responseJSON = $responseData["details"];
@@ -209,30 +219,35 @@ class MassEntityAPIHandler extends APIHandler
             throw $exception;
         }
     }
-
-    public function getAllDeletedRecords()
+    
+    public function getAllDeletedRecords($param_map,$header_map)
     {
-        return self::getDeletedRecords("all");
+        return self::getDeletedRecords($param_map,$header_map,"all");
     }
-
-    public function getRecycleBinRecords()
+    
+    public function getRecycleBinRecords($param_map,$header_map)
     {
-        return self::getDeletedRecords("recycle");
+        return self::getDeletedRecords($param_map,$header_map,"recycle");
     }
-
-    public function getPermanentlyDeletedRecords()
+    
+    public function getPermanentlyDeletedRecords($param_map,$header_map)
     {
-        return self::getDeletedRecords("permanent");
+        return self::getDeletedRecords($param_map,$header_map,"permanent");
     }
-
-    private function getDeletedRecords($type)
+    
+    private function getDeletedRecords($param_map,$header_map,$type)
     {
         try {
             $this->urlPath = $this->module->getAPIName() . "/deleted";
             $this->requestMethod = APIConstants::REQUEST_METHOD_GET;
+            foreach($param_map as $key=>$value){
+                if($value!=null)$this->addParam($key,$value);
+            }
+            foreach($header_map as $key=>$value){
+                if($value!=null)$this->addHeader($key,$value);
+            }
             $this->addHeader("Content-Type", "application/json");
             $this->addParam("type", $type);
-
             $responseInstance = APIRequest::getInstance($this)->getBulkAPIResponse();
             $responseJSON = $responseInstance->getResponseJSON();
             $trashRecords = $responseJSON["data"] ?? [];
@@ -242,16 +257,16 @@ class MassEntityAPIHandler extends APIHandler
                 self::setTrashRecordProperties($trashRecordInstance, $trashRecord);
                 array_push($trashRecordList, $trashRecordInstance);
             }
-
+            
             $responseInstance->setData($trashRecordList);
-
+            
             return $responseInstance;
         } catch (ZCRMException $exception) {
             APIExceptionHandler::logException($exception);
             throw $exception;
         }
     }
-
+    
     public function setTrashRecordProperties($trashRecordInstance, $recordProperties)
     {
         if ($recordProperties['display_name'] != null) {
@@ -269,30 +284,19 @@ class MassEntityAPIHandler extends APIHandler
         }
         $trashRecordInstance->setDeletedTime($recordProperties['deleted_time']);
     }
-
-    public function getRecords($cvId, $sortByField, $sortOrder, $page, $perPage, $customHeaders)
+    
+    public function getRecords($param_map,$header_map)
     {
         try {
             $this->urlPath = $this->module->getAPIName();
             $this->requestMethod = APIConstants::REQUEST_METHOD_GET;
+            foreach ($param_map as $key => $value) {
+                if($value!==null)$this->addParam($key, $value);
+            }
+            foreach ($header_map as $key => $value) {
+                if($value!==null)$this->addHeader($key, $value);
+            }
             $this->addHeader("Content-Type", "application/json");
-            if ($customHeaders != null) {
-                foreach ($customHeaders as $key => $value) {
-                    $this->addHeader($key, $value);
-                }
-            }
-            if ($cvId != null) {
-                $this->addParam("cvid", $cvId );
-            }
-            if ($sortByField != null) {
-                $this->addParam("sort_by", $sortByField);
-            }
-            if ($sortOrder != null) {
-                $this->addParam("sort_order", $sortOrder);
-            }
-            $this->addParam("page", $page );
-            $this->addParam("per_page", $perPage );
-
             $responseInstance = APIRequest::getInstance($this)->getBulkAPIResponse();
             $responseJSON = $responseInstance->getResponseJSON();
             $records = $responseJSON["data"] ?? [];
@@ -302,38 +306,32 @@ class MassEntityAPIHandler extends APIHandler
                 EntityAPIHandler::getInstance($recordInstance)->setRecordProperties($record);
                 array_push($recordsList, $recordInstance);
             }
-
+            
             $responseInstance->setData($recordsList);
-
+            
             return $responseInstance;
         } catch (ZCRMException $exception) {
             APIExceptionHandler::logException($exception);
             throw $exception;
         }
     }
-
-    public function searchRecords($searchWord, $page, $perPage, $type)
+    
+    public function searchRecords($param_map,$type,$search_value)
     {
         try {
             $this->urlPath = $this->module->getAPIName() . "/search";
             $this->requestMethod = APIConstants::REQUEST_METHOD_GET;
-            $this->addHeader("Content-Type", "application/json");
-            switch ($type) {
-                case "word":
-                    $this->addParam("word", $searchWord);
-                    break;
-                case "phone":
-                    $this->addParam("phone", $searchWord);
-                    break;
-                case "email":
-                    $this->addParam("email", $searchWord);
-                    break;
-                case "criteria":
-                    $this->addParam("criteria", $searchWord);
-                    break;
+            $exclusion_array = ["word","phone","email","criteria"];
+            foreach($exclusion_array as $exclusion){
+                if(array_key_exists($exclusion, $param_map)){
+                    unset($param_map[$exclusion]);
+                }
             }
-            $this->addParam("page", $page + 0);
-            $this->addParam("per_page", $perPage + 0);
+            foreach ($param_map as $key => $value) {
+                if($value!==null)$this->addParam($key, $value);
+            }
+            $this->addParam($type, $search_value);
+            $this->addHeader("Content-Type", "application/json");
             $responseInstance = APIRequest::getInstance($this)->getBulkAPIResponse();
             $responseJSON = $responseInstance->getResponseJSON();
             $records = $responseJSON["data"] ?? [];
@@ -343,16 +341,16 @@ class MassEntityAPIHandler extends APIHandler
                 EntityAPIHandler::getInstance($recordInstance)->setRecordProperties($record);
                 array_push($recordsList, $recordInstance);
             }
-
+            
             $responseInstance->setData($recordsList);
-
+            
             return $responseInstance;
         } catch (ZCRMException $exception) {
             APIExceptionHandler::logException($exception);
             throw $exception;
         }
     }
-
+    
     public function massUpdateRecords($idList, $apiName, $value)
     {
         if (sizeof($idList) > 100) {
@@ -366,7 +364,7 @@ class MassEntityAPIHandler extends APIHandler
             $this->requestBody = $inputJSON;
             $this->apiKey = 'data';
             $bulkAPIResponse = APIRequest::getInstance($this)->getBulkAPIResponse();
-
+            
             $updatedRecords = array();
             $responses = $bulkAPIResponse->getEntityResponses();
             $size = sizeof($responses);
@@ -375,7 +373,7 @@ class MassEntityAPIHandler extends APIHandler
                 if (APIConstants::STATUS_SUCCESS === $entityResIns->getStatus()) {
                     $responseData = $entityResIns->getResponseJSON();
                     $recordJSON = $responseData["details"];
-
+                    
                     $updatedRecord = ZCRMRecord::getInstance($this->module->getAPIName(), $recordJSON["id"]);
                     EntityAPIHandler::getInstance($updatedRecord)->setRecordProperties($recordJSON);
                     array_push($updatedRecords, $updatedRecord);
@@ -385,14 +383,14 @@ class MassEntityAPIHandler extends APIHandler
                 }
             }
             $bulkAPIResponse->setData($updatedRecords);
-
+            
             return $bulkAPIResponse;
         } catch (ZCRMException $exception) {
             APIExceptionHandler::logException($exception);
             throw $exception;
         }
     }
-
+    
     public function constructJSONForMassUpdate($idList, $apiName, $value)
     {
         $massUpdateArray = array();
@@ -402,7 +400,7 @@ class MassEntityAPIHandler extends APIHandler
             $updateJson[$apiName] = $value;
             array_push($massUpdateArray, $updateJson);
         }
-
+        
         return array(
             "data" => $massUpdateArray
         );
